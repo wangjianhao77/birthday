@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>生日快乐张心怡！</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <style>
         /* 整体页面布局，使用 flex 布局使内容居中 */
         body {
@@ -13,30 +14,29 @@
             justify-content: center;
             align-items: center;
             /* 背景渐变效果，增加视觉层次感 */
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
             overflow: hidden;
-            /* 使用微软雅黑字体，无衬线字体作为备选 */
-            font-family: 'Microsoft YaHei', sans-serif;
+            /* 使用 Pacifico 字体，增加高级感 */
+            font-family: 'Pacifico', cursive;
         }
 
         /* 容器，相对定位，方便内部元素绝对定位 */
         .container {
             position: relative;
             text-align: center;
+            color: #fff;
         }
 
         /* 生日祝福语，设置字体大小、颜色和文字阴影，并添加闪烁动画 */
         .birthday-text {
             font-size: 4em;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
             animation: glow 2s ease-in-out infinite;
         }
 
         /* 信息文字，设置字体大小、颜色和上边距，并添加浮动动画 */
         .message {
             font-size: 1.5em;
-            color: #fff;
             margin-top: 20px;
             animation: float 3s ease-in-out infinite;
         }
@@ -60,11 +60,11 @@
         /* 闪烁动画，控制文字阴影的变化 */
         @keyframes glow {
             0%, 100% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
             }
 
             50% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 45px rgba(255, 255, 255, 0.8);
             }
         }
 
@@ -75,7 +75,7 @@
             }
 
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-15px);
             }
         }
 
@@ -87,7 +87,7 @@
             }
 
             to {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(100vh) rotate(720deg);
                 opacity: 0;
             }
         }
@@ -117,8 +117,8 @@
             heart.style.left = `${Math.random() * 100}%`;
             // 随机生成心形的动画持续时间，范围在 2 到 5 秒之间
             heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            // 随机生成心形的字体大小，范围在 10 到 30px 之间
-            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+            // 随机生成心形的字体大小，范围在 20 到 40px 之间
+            heart.style.fontSize = `${Math.random() * 20 + 20}px`;
 
             // 将心形元素添加到 hearts 容器中
             document.getElementById('hearts').appendChild(heart);
