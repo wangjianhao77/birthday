@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>生日快乐张心怡！</title>
+    <style>
+        /* 整体页面布局，使用 flex 布局使内容居中 */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 背景渐变效果，增加视觉层次感 */
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
+            overflow: hidden;
+            /* 使用微软雅黑字体，无衬线字体作为备选 */
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 容器，相对定位，方便内部元素绝对定位 */
+        .container {
+            position: relative;
+            text-align: center;
+        }
+
+        /* 生日祝福语，设置字体大小、颜色和文字阴影，并添加闪烁动画 */
+        .birthday-text {
+            font-size: 4em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* 信息文字，设置字体大小、颜色和上边距，并添加浮动动画 */
+        .message {
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* 心形元素容器，绝对定位，铺满整个容器 */
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* 防止鼠标事件干扰 */
+            pointer-events: none;
+        }
+
+        /* 单个心形元素，绝对定位，设置颜色和下落动画 */
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            animation: fall linear forwards;
+        }
+
+        /* 闪烁动画，控制文字阴影的变化 */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* 浮动动画，控制元素的上下浮动 */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 下落动画，控制心形元素的下落和旋转，同时改变透明度 */
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="birthday-text">🎉 张心怡 生日快乐！ 🎂</h1>
+        <p class="message">愿你的每一天都充满阳光与欢笑</p>
+        <p class="message">每一岁都能遇见更好的自己</p>
+        <p class="message">永远保持灿烂的笑容！✨</p>
+        <div class="hearts" id="hearts"></div>
+    </div>
+
+    <script>
+        // 生成心形元素的函数
+        function createHeart() {
+            // 创建一个 div 元素作为心形
+            const heart = document.createElement('div');
+            // 设置心形的内容为 ❤
+            heart.innerHTML = '❤';
+            // 添加 heart 类名，以便应用样式
+            heart.classList.add('heart');
+
+            // 随机生成心形的水平位置
+            heart.style.left = `${Math.random() * 100}%`;
+            // 随机生成心形的动画持续时间，范围在 2 到 5 秒之间
+            heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            // 随机生成心形的字体大小，范围在 10 到 30px 之间
+            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+
+            // 将心形元素添加到 hearts 容器中
+            document.getElementById('hearts').appendChild(heart);
+
+            // 5 秒后移除心形元素，避免内存泄漏
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // 每 300 毫秒生成一个心形元素
+        setInterval(createHeart, 300);
+    </script>
+
+    <!-- 背景音乐（需要替换有效音频链接） -->
+    <audio autoplay loop>
+        <!-- 音频源，设置音频类型为 audio/mpeg -->
+        <source src="http://music.163.com/song/media/outer/url?id=1450707819.mp3" type="audio/mpeg">
+    </audio>
+</body>
+
+</html>
