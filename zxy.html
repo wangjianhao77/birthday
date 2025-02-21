@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>生日快乐张心怡！</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <title>生日快乐，张大美女！</title>
     <style>
         /* 整体页面布局，使用 flex 布局使内容居中 */
         body {
@@ -14,33 +13,32 @@
             justify-content: center;
             align-items: center;
             /* 背景渐变效果，增加视觉层次感 */
-            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
             overflow: hidden;
-            /* 使用 Pacifico 字体，增加高级感 */
-            font-family: 'Pacifico', cursive;
+            /* 使用微软雅黑字体，无衬线字体作为备选 */
+            font-family: 'Microsoft YaHei', sans-serif;
         }
 
         /* 容器，相对定位，方便内部元素绝对定位 */
         .container {
             position: relative;
             text-align: center;
-            color: #fff;
         }
 
         /* 生日祝福语，设置字体大小、颜色和文字阴影，并添加闪烁动画 */
         .birthday-text {
             font-size: 4em;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-            animation: glow 2s ease-in-out infinite;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite, textEntrance 1s ease-out;
         }
-
         /* 信息文字，设置字体大小、颜色和上边距，并添加浮动动画 */
         .message {
             font-size: 1.5em;
+            color: #fff;
             margin-top: 20px;
             animation: float 3s ease-in-out infinite;
         }
-
         /* 心形元素容器，绝对定位，铺满整个容器 */
         .hearts {
             position: absolute;
@@ -56,51 +54,184 @@
             color: #ff69b4;
             animation: fall linear forwards;
         }
-
         /* 闪烁动画，控制文字阴影的变化 */
         @keyframes glow {
             0%, 100% {
-                text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             }
-
             50% {
-                text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 45px rgba(255, 255, 255, 0.8);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
             }
         }
-
         /* 浮动动画，控制元素的上下浮动 */
         @keyframes float {
             0%, 100% {
                 transform: translateY(0);
             }
-
             50% {
-                transform: translateY(-15px);
+                transform: translateY(-10px);
             }
         }
-
         /* 下落动画，控制心形元素的下落和旋转，同时改变透明度 */
         @keyframes fall {
             from {
                 transform: translateY(-100vh) rotate(0deg);
                 opacity: 1;
             }
-
             to {
-                transform: translateY(100vh) rotate(720deg);
+                transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
             }
         }
+        /* 新增星光粒子效果 */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+        /* 新增气球样式 */
+        .balloon {
+            position: absolute;
+            font-size: 30px;
+            animation: floatBalloon 8s ease-in forwards;
+        }
+        /* 新增文字入场动画 */
+        .birthday-text {
+            animation: glow 2s ease-in-out infinite, 
+                       pulse 1.5s ease-in-out infinite,
+                       textEntrance 1s ease-out; /* 新增入场动画 */
+        }
+        @keyframes textEntrance {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        @keyframes floatBalloon {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        /* 新增流星特效 */
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: meteorFall 3s linear forwards;
+        }
+        @keyframes meteorFall {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100vw, 100vh);
+                opacity: 0;
+            }
+        }
+        /* 新增登录页面样式 */
+        #login-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 107, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-box input {
+            display: block;
+            width: 200px;
+            margin: 1rem auto;
+            padding: 0.8rem;
+            border: 2px solid #ff69b4;
+            border-radius: 25px;
+            font-size: 1.1rem;
+        }
+
+        .login-box button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .login-box button:hover {
+            transform: scale(1.1);
+        }
+        /* 美化进入祝福世界按钮 */
+        #enter-button {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            font-size: 2em;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff69b4, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #enter-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+        }
+
     </style>
 </head>
 
+<!-- 在body开始标签后添加登录页面结构 -->
 <body>
-    <div class="container">
-        <h1 class="birthday-text">🎉 张心怡 生日快乐！ 🎂</h1>
-        <p class="message">愿你的每一天都充满阳光与欢笑</p>
-        <p class="message">每一岁都能遇见更好的自己</p>
-        <p class="message">永远保持灿烂的笑容！✨</p>
-        <div class="hearts" id="hearts"></div>
+    <!-- 新增登录容器 -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>🎂 生日密令 🎉</h2>
+            <input type="text" id="name" placeholder="请输入寿星名字" autocomplete="off">
+            <input type="password" id="keyword" placeholder="请输入神秘代码" autocomplete="off">
+            <button onclick="checkAccess()">开启祝福</button>
+            <div id="countdown"></div>
+        </div>
+    </div>
+
+    <!-- 将原有内容包裹在新容器中 -->
+    <div id="main-content" style="display:none;">
+        <div class="container">
+            <h1 class="birthday-text">🎉 生日快乐，张大美女！ 🎂</h1>
+            <p class="message">愿你的每一天都充满阳光与欢笑</p>
+            <p class="message">每一岁都能遇见更好的自己</p>
+            <p class="message">永远保持灿烂的笑容！✨</p>
+            <div class="hearts" id="hearts"></div>
+        </div>
     </div>
 
     <script>
@@ -117,8 +248,8 @@
             heart.style.left = `${Math.random() * 100}%`;
             // 随机生成心形的动画持续时间，范围在 2 到 5 秒之间
             heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            // 随机生成心形的字体大小，范围在 20 到 40px 之间
-            heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+            // 随机生成心形的字体大小，范围在 10 到 30px 之间
+            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
 
             // 将心形元素添加到 hearts 容器中
             document.getElementById('hearts').appendChild(heart);
@@ -128,16 +259,331 @@
                 heart.remove();
             }, 5000);
         }
-
         // 每 300 毫秒生成一个心形元素
         setInterval(createHeart, 300);
     </script>
+    <script>
+        // 修改后的心形生成函数
+        function createHeart() {
+            const heart = document.createElement('div');
+            // 随机选择心形样式
+            const hearts = ['❤', '💖', '💗', '💓'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            // 添加随机颜色
+            const colors = ['#ff69b4', '#ff7eb9', '#ff97c1', '#ffacd1'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+            // 添加随机旋转方向
+            heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+        }
+    // 添加页面加载完成后的音乐自动播放
+    window.addEventListener('load', function() {
+        const audio = document.querySelector('audio');
+        audio.play().catch(() => {
+            // 如果自动播放失败，显示播放按钮
+            const playBtn = document.createElement('button');
+            playBtn.innerHTML = '点击播放音乐';
+            playBtn.style.position = 'fixed';
+            playBtn.style.bottom = '20px';
+            playBtn.style.left = '50%';
+            playBtn.style.transform = 'translateX(-50%)';
+            playBtn.addEventListener('click', () => audio.play());
+            document.body.appendChild(playBtn);
+        });
+    });
+</script>
 
-    <!-- 背景音乐（需要替换有效音频链接） -->
-    <audio autoplay loop>
-        <!-- 音频源，设置音频类型为 audio/mpeg -->
-        <source src="http://music.163.com/song/media/outer/url?id=1450707819.mp3" type="audio/mpeg">
-    </audio>
+<!-- 修改后的audio标签 -->
+<audio autoplay loop>
+    <!-- 添加本地音乐路径 -->
+    <source src="birthday.mp3" type="audio/mpeg">
+    <!-- 可以添加多个格式备用 -->
+    <source src="birthday.ogg" type="audio/ogg">
+    你的浏览器不支持音频播放
+</audio>
+<script>
+    // 新增星光生成函数
+    function createStar() {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 1}s`;
+        star.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        document.body.appendChild(star);
+    }
+
+    // 新增气球生成函数
+    function createBalloon() {
+        const balloon = document.createElement('div');
+        balloon.innerHTML = '🎈';
+        balloon.classList.add('balloon');
+        balloon.style.left = `${Math.random() * 100}%`;
+        balloon.style.fontSize = `${Math.random() * 30 + 20}px`;
+        balloon.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 8000);
+    }
+
+    // 初始化新特效
+    window.addEventListener('load', () => {
+        // 创建初始星光
+        for(let i=0; i<50; i++) createStar();
+        
+        // 定时生成气球
+        setInterval(createBalloon, 2000);
+        
+        // 添加点击生成爱心
+        document.addEventListener('click', (e) => {
+            const clickHeart = document.createElement('div');
+            clickHeart.innerHTML = '💖';
+            clickHeart.style.cssText = `
+                position: absolute;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                font-size: 30px;
+                animation: pulse 0.5s ease-out;
+            `;
+            document.body.appendChild(clickHeart);
+            setTimeout(() => clickHeart.remove(), 1000);
+        });
+    });
+</script>
+<script>
+    // 祝福语配置（在第一个script标签顶部添加）
+    const messages = {
+        main: [
+            "🎉 {name} 生日快乐！ 🎂",
+            "✨ 闪耀时刻属于你 ✨",
+            "💐 美好年华常相伴 💐",
+            "🎁 惊喜连连每一天 🎁",
+            "🌟 星光璀璨照前程 🌟",
+            // 新增以下祝福语
+            "🌸 如花美眷，似水流年 🌸",
+            "🎶 奏响生命的华美乐章 🎶",
+            "🍰 甜蜜时刻永驻心间 🍰",
+            "🌈 彩虹般绚丽的二十岁 🌈"
+        ],
+        sub: [
+            "愿温暖与喜悦常驻心间",
+            "每一年都是更好的自己",
+            "保持热爱奔赴星辰大海",
+            "生活如彩虹般绚烂多彩",
+            "幸福像花儿一样绽放",
+            "梦想在阳光下茁壮成长",
+            // 新增以下祝福语
+            "青春永驻，笑靥如花",
+            "万事胜意，前程似锦",
+            "心想事成，美梦成真",
+            "友谊长存，温暖相伴",
+            "勇敢追梦，无问西东",
+            "岁月静好，喜乐安康"
+        ]
+    };
+
+    // 在createHeart函数后添加以下代码
+    const textElements = {
+        main: document.querySelector('.birthday-text'),
+        subs: document.querySelectorAll('.message')
+    };
+
+    function animateText(element, newText) {
+        element.style.animation = 'textSwitch 1.2s ease';
+        setTimeout(() => {
+            element.textContent = newText.replace('{name}', '张心怡');
+            element.style.animation = '';
+        }, 600);
+    }
+
+    function updateMessages() {
+        animateText(textElements.main, 
+            messages.main[Math.floor(Math.random() * messages.main.length)]);
+        
+        textElements.subs.forEach(el => {
+            animateText(el, 
+                messages.sub[Math.floor(Math.random() * messages.sub.length)]);
+        });
+    }
+
+    // 每5秒更新一次，保留原有300毫秒心形生成间隔
+    setInterval(updateMessages, 5000);
+</script>
+</body>
+
+</html>
+
+<style>
+/* 新增登录页面样式 */
+#login-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 107, 107, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box input {
+    display: block;
+    width: 200px;
+    margin: 1rem auto;
+    padding: 0.8rem;
+    border: 2px solid #ff69b4;
+    border-radius: 25px;
+    font-size: 1.1rem;
+}
+
+.login-box button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.login-box button:hover {
+    transform: scale(1.1);
+}
+
+/* 新增烟花效果 */
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(20); opacity: 0; }
+}
+</style>
+
+<script>
+// 新增登录验证和转场逻辑
+function checkAccess() {
+    const name = document.getElementById('name').value.trim();
+    const keyword = document.getElementById('keyword').value.trim();
+    
+    if(name === "张心怡" && keyword.toLowerCase() === "happy birthday") {
+        document.querySelector('.login-box').style.animation = 'textEntrance 0.5s forwards';
+        startCountdown();
+    } else {
+        alert('❌ 验证未通过，请重新输入');
+    }
+}
+
+function startCountdown() {
+    let count = 5;
+    const countdownEl = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+        countdownEl.innerHTML = `<span style="font-size:3em">${count}</span><br>神秘祝福加载中...`;
+        count--;
+        
+        if(count < 0) {
+            clearInterval(timer);
+            createFireworks();
+            setTimeout(showEnterButton, 7000);
+        }
+    }, 1000);
+}
+
+function createFireworks() {
+    const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3'];
+    for(let i=0; i<50; i++) {
+        setTimeout(() => {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = `${Math.random()*100}%`;
+            firework.style.top = `${Math.random()*100}%`;
+            firework.style.background = colors[Math.floor(Math.random()*4)];
+            document.getElementById('login-container').appendChild(firework);
+            setTimeout(() => firework.remove(), 1000);
+        }, i*150);
+    }
+}
+</script>
+<script>
+function showEnterButton() {
+    const btn = document.createElement('button');
+    btn.innerHTML = '✨ 点击进入祝福世界 ✨';
+    btn.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+        font-size: 2em;
+        padding: 1rem 2rem;
+    `;
+    btn.onclick = () => {
+        btn.remove(); // 新增移除按钮自身的代码
+        document.getElementById('login-container').remove();
+        document.getElementById('main-content').style.display = 'block';
+        document.querySelector('audio').play();
+    };
+    document.body.appendChild(btn);
+}
+</script>
+<script>
+    // 新增canvas烟花初始化
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // 调整canvas尺寸适应窗口
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // 烟花参数配置
+    const FIREWORK_CONFIG = {
+        gravity: 0.25,
+        launchCount: 5,
+        surpriseThreshold: 25
+    };
+
+    // 整合烟花动画逻辑
+    class FireworkSystem {
+        constructor() {
+            this.fireworks = [];
+            this.totalLaunched = 0;
+        }
+        
+        // 创建单个烟花
+        createFirework() {
+            // 原有烟花创建逻辑...
+        }
+    }
+
+    // 初始化烟花系统
+    const fireworkSystem = new FireworkSystem();
+    </script>
+
+    <!-- 保留原有心形生成逻辑 -->
+    <script>
+    function createHeart() { 
+        // 原有心形生成逻辑...
+    }
+    </script>
 </body>
 
 </html>
