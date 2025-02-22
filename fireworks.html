@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>祝福世界</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: black;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #enter-button {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            font-size: 2em;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff69b4, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #enter-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <audio id="bgm" autoplay loop>
+        <source src="birthday.mp3" type="audio/mpeg">
+        <source src="birthday.ogg" type="audio/ogg">
+        <source src="birthday.wav" type="audio/wav">
+        您的浏览器不支持音频播放
+    </audio>
+    <button id="enter-button" onclick="enterBlessingWorld()">✨ 点击进入祝福世界 ✨</button>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // 粒子类：采用极坐标计算运动，并加入摩擦与重力
+        class Particle {
+            constructor(x, y, angle, speed, color) {
+                this.x = x;
+                this.y = y;
+                this.angle = angle;
+                this.speed = speed;
+                this.friction = 0.98;
+                this.gravity = 0.05;
+                this.alpha = 1;
+                this.size = Math.random() * 2 + 2;
+                this.color = color;
+            }
+            update() {
+                this.speed *= this.friction;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                this.alpha -= 0.01;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // 烟花类：每个烟花由多个粒子构成
+        class Firework {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.particles = [];
+                this.initParticles();
+            }
+            initParticles() {
+                const particleCount = 100;
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 2;
+                    this.particles.push(new Particle(this.x, this.y, angle, speed, this.color));
+                }
+            }
+            update() {
+                this.particles.forEach(particle => particle.update());
+            }
+            draw() {
+                this.particles.forEach(particle => particle.draw());
+            }
+            isFinished() {
+                // 当大部分粒子完全淡出时，认为该烟花结束
+                return this.particles.every(particle => particle.alpha <= 0);
+            }
+        }
+
+        const fireworks = [];
+        // 优化后的烟花生成函数：随机位置、随机颜色
+        function createFireworks() {
+            const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3'];
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.5; // 上半部分爆炸效果更佳
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            fireworks.push(new Firework(x, y, color));
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';  // 采用半透明填充，形成拖影效果
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const firework = fireworks[i];
+                firework.update();
+                firework.draw();
+                if (firework.isFinished()) {
+                    fireworks.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function showEnterButton() {
+            document.getElementById('enter-button').style.display = 'block';
+        }
+
+        function enterBlessingWorld() {
+            window.location.href = 'main.html';
+        }
+
+        window.addEventListener('load', () => {
+            // 初次生成一个烟花效果
+            createFireworks();
+            // 每2秒生成一次新的烟花
+            setInterval(createFireworks, 2000);
+            animate();
+            // 10秒后显示跳转按钮
+            setTimeout(showEnterButton, 10000);
+        });
+    </script>
+</body>
+</html>

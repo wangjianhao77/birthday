@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>祝福世界</title>
+    <style>
+        /* 整体页面布局 */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
+            overflow: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+        }
+        .birthday-text {
+            font-size: 4em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite, textEntrance 1s ease-out;
+        }
+        .message {
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        /* 爱心及动画 */
+        .heart, .cake, .ribbon {
+            position: absolute;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes textEntrance {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        /* 星光与气球 */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        .heart-balloon {
+            position: absolute;
+            font-size: 30px;
+            animation: floatBalloon 8s ease-in forwards;
+        }
+        @keyframes floatBalloon {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-150vh) rotate(720deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主祝福内容 -->
+    <div id="main-content">
+        <div class="container">
+            <h1 class="birthday-text">🎉 生日快乐，张大美女！ 🎂</h1>
+            <p class="message">愿你的每一天都充满阳光与欢笑</p>
+            <p class="message">每一岁都能遇见更好的自己</p>
+            <p class="message">永远保持灿烂的笑容！✨</p>
+            <div class="hearts" id="hearts"></div>
+        </div>
+    </div>
+
+    <!-- 背景音乐 -->
+    <audio id="bgm" autoplay loop>
+        <source src="birthday.mp3" type="audio/mpeg">
+        <source src="birthday.ogg" type="audio/ogg">
+        <source src="birthday.wav" type="audio/wav">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <script>
+        // 加载完成后自动播放音乐（若自动播放失败则提供手动按钮）
+        window.addEventListener('load', () => {
+            const audio = document.querySelector('audio');
+            audio.play().catch(() => {
+                const playBtn = document.createElement('button');
+                playBtn.innerHTML = '点击播放音乐';
+                playBtn.style.position = 'fixed';
+                playBtn.style.bottom = '20px';
+                playBtn.style.left = '50%';
+                playBtn.style.transform = 'translateX(-50%)';
+                playBtn.addEventListener('click', () => audio.play());
+                document.body.appendChild(playBtn);
+            });
+        });
+
+        // 星光生成函数
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 1}s`;
+            star.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            document.body.appendChild(star);
+        }
+        // 爱心气球生成函数
+        function createHeartBalloon() {
+            const balloon = document.createElement('div');
+            balloon.innerHTML = '💖';
+            balloon.classList.add('heart-balloon');
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloon.style.fontSize = `${Math.random() * 40 + 30}px`;
+            balloon.style.color = `hsl(${Math.random() * 20 + 340}, 80%, 60%)`;
+            balloon.style.animationDuration = `${Math.random() * 6 + 6}s`;
+            balloon.style.filter = 'drop-shadow(0 5px 15px rgba(255,50,150,0.5))';
+            document.body.appendChild(balloon);
+            setTimeout(() => balloon.remove(), 10000);
+        }
+        // 爱心生成函数
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.classList.add('heart');
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        // 蛋糕生成函数
+        function createCake() {
+            const cake = document.createElement('div');
+            cake.innerHTML = '🍰';
+            cake.classList.add('cake');
+            cake.style.left = `${Math.random() * 100}%`;
+            cake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            document.body.appendChild(cake);
+            setTimeout(() => cake.remove(), 5000);
+        }
+        // 彩带生成函数
+        function createRibbon() {
+            const ribbon = document.createElement('div');
+            ribbon.innerHTML = '🎀';
+            ribbon.classList.add('ribbon');
+            ribbon.style.left = `${Math.random() * 100}%`;
+            ribbon.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            document.body.appendChild(ribbon);
+            setTimeout(() => ribbon.remove(), 5000);
+        }
+        // 初始化特效：星光、爱心气球、爱心、蛋糕与彩带
+        window.addEventListener('load', () => {
+            for(let i = 0; i < 50; i++) createStar();
+            setInterval(createHeartBalloon, 1500);
+            setInterval(createHeart, 1000);
+            setInterval(createCake, 3000);
+            setInterval(createRibbon, 4000);
+            document.addEventListener('click', (e) => {
+                const clickHeart = document.createElement('div');
+                clickHeart.innerHTML = '💖';
+                clickHeart.style.cssText = `
+                    position: absolute;
+                    left: ${e.clientX}px;
+                    top: ${e.clientY}px;
+                    font-size: 30px;
+                    animation: pulse 0.5s ease-out;
+                `;
+                document.body.appendChild(clickHeart);
+                setTimeout(() => clickHeart.remove(), 1000);
+            });
+        });
+
+        // 祝福语更新逻辑
+        const messages = {
+            main: [
+                "🎉 {name} 生日快乐！ 🎂",
+                "✨ 闪耀时刻属于你 ✨",
+                "💐 美好年华常相伴 💐",
+                "🎁 惊喜连连每一天 🎁",
+                "🌟 星光璀璨照前程 🌟",
+                "🌸 如花美眷，似水流年 🌸",
+                "🎶 奏响生命的华美乐章 🎶",
+                "🍰 甜蜜时刻永驻心间 🍰",
+                "🌈 彩虹般绚丽的二十岁 🌈"
+            ],
+            sub: [
+                "愿温暖与喜悦常驻心间",
+                "每一年都是更好的自己",
+                "保持热爱奔赴星辰大海",
+                "生活如彩虹般绚烂多彩",
+                "幸福像花儿一样绽放",
+                "梦想在阳光下茁壮成长",
+                "青春永驻，笑靥如花",
+                "万事胜意，前程似锦",
+                "心想事成，美梦成真",
+                "友谊长存，温暖相伴",
+                "勇敢追梦，无问西东",
+                "岁月静好，喜乐安康"
+            ]
+        };
+        const textElements = {
+            main: document.querySelector('.birthday-text'),
+            subs: document.querySelectorAll('.message')
+        };
+        function animateText(element, newText) {
+            element.style.animation = 'textSwitch 1.2s ease';
+            setTimeout(() => {
+                element.textContent = newText.replace('{name}', '张心怡');
+                element.style.animation = '';
+            }, 600);
+        }
+        function updateMessages() {
+            animateText(textElements.main, messages.main[Math.floor(Math.random() * messages.main.length)]);
+            textElements.subs.forEach(el => {
+                animateText(el, messages.sub[Math.floor(Math.random() * messages.sub.length)]);
+            });
+        }
+        setInterval(updateMessages, 5000);
+    </script>
+
+<style>
+/* 新增飘落元素样式 */
+.gift, .sparkle, .flower {
+    position: absolute;
+    animation: floatFall linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg) scale(0.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* 新增3D旋转效果 */
+@keyframes rotate3D {
+    0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+    100% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
+}
+</style>
+
+
+<script>
+// 新增礼物生成函数
+function createGift() {
+    const gift = document.createElement('div');
+    gift.innerHTML = '🎁';
+    gift.classList.add('gift');
+    gift.style.cssText = `
+        left: ${Math.random() * 100}%;
+        font-size: ${Math.random() * 30 + 20}px;
+        color: hsl(${Math.random() * 360}, 70%, 60%);
+        animation-duration: ${Math.random() * 5 + 5}s;
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    `;
+    document.body.appendChild(gift);
+    setTimeout(() => gift.remove(), 8000);
+}
+
+// 新增闪光生成函数  
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.innerHTML = '✨';
+    sparkle.classList.add('sparkle');
+    sparkle.style.cssText = `
+        left: ${Math.random() * 100}%;
+        font-size: ${Math.random() * 40 + 10}px;
+        animation: floatFall ${Math.random() * 3 + 4}s linear forwards,
+                  rotate3D ${Math.random() * 2 + 3}s ease-in-out infinite;
+    `;
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 8000);
+}
+
+// 修改原有初始化特效部分
+window.addEventListener('load', () => {
+    // ...保留原有初始化代码...
+    
+    // 新增飘落元素生成
+    setInterval(() => {
+        createGift();
+        createSparkle();
+        Math.random() < 0.3 && createFlower(); // 30%概率生成花朵
+    }, 1500);
+
+    // 新增花朵生成函数
+    function createFlower() {
+        const flower = document.createElement('div');
+        flower.innerHTML = '🌸';
+        flower.classList.add('flower');
+        flower.style.cssText = `
+            left: ${Math.random() * 100}%;
+            font-size: ${Math.random() * 35 + 15}px;
+            animation-duration: ${Math.random() * 4 + 6}s;
+            filter: drop-shadow(0 0 5px pink);
+        `;
+        document.body.appendChild(flower);
+        setTimeout(() => flower.remove(), 8000);
+    }
+});
+</script>
+
+</body>
+</html>
