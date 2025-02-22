@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>生日快乐，张大美女！</title>
+    <style>
+        /* 整体页面布局 */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
+            overflow: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        /* 登录容器样式 */
+        #login-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 107, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 1s ease;
+        }
+        .login-box input {
+            display: block;
+            width: 200px;
+            margin: 1rem auto;
+            padding: 0.8rem;
+            border: 2px solid #ff69b4;
+            border-radius: 25px;
+            font-size: 1.1rem;
+        }
+        .login-box button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .login-box button:hover {
+            transform: scale(1.1);
+        }
+        /* 倒计时样式 */
+        #countdown {
+            font-size: 3em;
+            color: white;
+            margin-top: 1rem;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes textEntrance {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>🎂 生日密令 🎉</h2>
+            <input type="text" id="name" placeholder="请输入寿星名字" autocomplete="off">
+            <input type="password" id="keyword" placeholder="请输入神秘代码" autocomplete="off">
+            <button onclick="checkAccess()">开启祝福</button>
+        </div>
+    </div>
+
+    <!-- 倒计时页面 -->
+    <div id="countdown-container" style="display: none;">
+        <div id="countdown"></div>
+    </div>
+
+    <script>
+        function startCountdown() {
+            let count = 5;
+            const countdownEl = document.getElementById('countdown');
+            const timer = setInterval(() => {
+                countdownEl.innerHTML = `<span>${count}</span><br>神秘祝福加载中...`;
+                count--;
+                if(count < 0) {
+                    clearInterval(timer);
+                    window.location.href = 'fireworks.html';
+                }
+            }, 1000);
+        }
+
+        // 登录验证逻辑
+        function checkAccess() {
+            const name = document.getElementById('name').value.trim();
+            const keyword = document.getElementById('keyword').value.trim();
+            if(name === "张心怡" && keyword.toLowerCase() === "happy birthday") {
+                const loginContainer = document.getElementById('login-container');
+                loginContainer.style.opacity = '0';
+                loginContainer.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    loginContainer.style.display = 'none';
+                    document.getElementById('countdown-container').style.display = 'flex';
+                    startCountdown();
+                }, 1000);
+            } else {
+                alert('❌ 验证未通过，请重新输入');
+            }
+        }
+    </script>
+</body>
+</html>
