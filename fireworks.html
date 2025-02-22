@@ -120,12 +120,14 @@
 
         const fireworks = [];
         // 优化后的烟花生成函数：随机位置、随机颜色
-        function createFireworks() {
+        function createFireworks(count = 2) {
             const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3'];
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height * 0.5; // 上半部分爆炸效果更佳
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            fireworks.push(new Firework(x, y, color));
+            for (let i = 0; i < count; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height * 0.5; // 上半部分爆炸效果更佳
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                fireworks.push(new Firework(x, y, color));
+            }
         }
 
         function animate() {
@@ -151,13 +153,17 @@
         }
 
         window.addEventListener('load', () => {
-            // 初次生成一个烟花效果
+            // 初次生成两个烟花效果
             createFireworks();
-            // 每2秒生成一次新的烟花
-            setInterval(createFireworks, 2000);
+            // 每2秒生成两个新的烟花
+            const interval = setInterval(() => createFireworks(2), 2000);
             animate();
-            // 10秒后显示跳转按钮
-            setTimeout(showEnterButton, 10000);
+            // 10秒后显示跳转按钮并放全部烟花
+            setTimeout(() => {
+                clearInterval(interval);
+                createFireworks(10); // 最后一次放10个烟花
+                showEnterButton();
+            }, 10000);
         });
     </script>
 </body>
