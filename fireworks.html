@@ -60,6 +60,7 @@
         resizeCanvas();
 
         // 粒子类：采用极坐标计算运动，并加入摩擦与重力
+        // 增加了颜色渐变和光晕效果
         class Particle {
             constructor(x, y, angle, speed, color) {
                 this.x = x;
@@ -71,17 +72,27 @@
                 this.alpha = 1;
                 this.size = Math.random() * 2 + 2;
                 this.color = color;
+                this.timeOffset = Math.random() * 10;
             }
             update() {
                 this.speed *= this.friction;
                 this.x += Math.cos(this.angle) * this.speed;
                 this.y += Math.sin(this.angle) * this.speed + this.gravity;
-                this.alpha -= 0.01;
+                this.alpha -= 0.005;
             }
             draw() {
                 ctx.save();
+                // 添加光晕效果
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                // 动态颜色渐变（从白色渐变到原色）
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, 'rgba(255,255,255,0.8)');
+                gradient.addColorStop(1, this.color);
+                ctx.fillStyle = gradient;
                 ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -113,7 +124,7 @@
                 this.particles.forEach(particle => particle.draw());
             }
             isFinished() {
-                // 当大部分粒子完全淡出时，认为该烟花结束
+                // 当所有粒子都淡出时，认为该烟花结束
                 return this.particles.every(particle => particle.alpha <= 0);
             }
         }
@@ -121,17 +132,17 @@
         const fireworks = [];
         // 优化后的烟花生成函数：随机位置、随机颜色
         function createFireworks(count = 2) {
-            const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3'];
+            const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3', '#ff5722', '#e91e63'];
             for (let i = 0; i < count; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height * 0.5; // 上半部分爆炸效果更佳
+                const x = Math.random() * (canvas.width - 100) + 50;
+                const y = Math.random() * canvas.height * 0.3 + 50;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 fireworks.push(new Firework(x, y, color));
             }
         }
 
         function animate() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';  // 采用半透明填充，形成拖影效果
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // 降低透明度增强拖影
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             for (let i = fireworks.length - 1; i >= 0; i--) {
                 const firework = fireworks[i];
@@ -158,10 +169,10 @@
             // 每2秒生成两个新的烟花
             const interval = setInterval(() => createFireworks(2), 2000);
             animate();
-            // 10秒后显示跳转按钮并放全部烟花
+            // 10秒后显示跳转按钮，并一次性生成10个烟花
             setTimeout(() => {
                 clearInterval(interval);
-                createFireworks(10); // 最后一次放10个烟花
+                createFireworks(10);
                 showEnterButton();
             }, 10000);
         });
