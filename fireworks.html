@@ -7,9 +7,14 @@
         body {
             margin: 0;
             height: 100vh;
-            background: black;
+            background: linear-gradient(135deg, #000428, #004e92); /* 修改背景色 */
+            animation: backgroundAnim 10s ease infinite alternate;  /* 新增背景动画 */
             overflow: hidden;
             position: relative;
+        }
+        @keyframes backgroundAnim {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
         canvas {
             position: absolute;
@@ -92,7 +97,9 @@
                 gradient.addColorStop(0, 'rgba(255,255,255,0.8)');
                 gradient.addColorStop(1, this.color);
                 ctx.fillStyle = gradient;
-                ctx.globalAlpha = this.alpha;
+                // 新增脉冲效果，让粒子闪烁
+                const pulse = 0.7 + 0.3 * Math.sin(performance.now() / 100 + this.timeOffset);
+                ctx.globalAlpha = this.alpha * pulse;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -101,20 +108,29 @@
         }
 
         // 烟花类：每个烟花由多个粒子构成
+        // 修改 Firework 类，增加 isFinal 参数并优化粒子生成
         class Firework {
-            constructor(x, y, color) {
+            constructor(x, y, baseColor, isFinal = false) {
                 this.x = x;
                 this.y = y;
-                this.color = color;
+                // 构造独有的调色板：以传入颜色为基础，加上随机颜色
+                this.palette = [ baseColor ];
+                for (let i = 0; i < 4; i++) {
+                    this.palette.push(`hsl(${Math.floor(Math.random() * 360)}, 100%, 50%)`);
+                }
                 this.particles = [];
+                this.isFinal = isFinal;
                 this.initParticles();
             }
             initParticles() {
-                const particleCount = 100;
+                // 如果是最后爆炸，增加粒子数并加强初始速度
+                const particleCount = this.isFinal ? 150 : 100;
                 for (let i = 0; i < particleCount; i++) {
                     const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 4 + 2;
-                    this.particles.push(new Particle(this.x, this.y, angle, speed, this.color));
+                    const speed = Math.random() * (this.isFinal ? 6 : 4) + (this.isFinal ? 3 : 2);
+                    // 每个粒子随机从调色板中选择颜色
+                    const color = this.palette[Math.floor(Math.random() * this.palette.length)];
+                    this.particles.push(new Particle(this.x, this.y, angle, speed, color));
                 }
             }
             update() {
@@ -130,15 +146,27 @@
         }
 
         const fireworks = [];
+        let showMessage = false; // 添加一个标志位来控制显示信息
         // 优化后的烟花生成函数：随机位置、随机颜色
-        function createFireworks(count = 2) {
+        // 修改 createFireworks 函数，添加 isFinal 参数控制最终爆炸效果
+        function createFireworks(count = 2, isFinal = false) {
             const colors = ['#ff69b4', '#ffeb3b', '#4caf50', '#2196f3', '#ff5722', '#e91e63'];
             for (let i = 0; i < count; i++) {
                 const x = Math.random() * (canvas.width - 100) + 50;
                 const y = Math.random() * canvas.height * 0.3 + 50;
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                fireworks.push(new Firework(x, y, color));
+                fireworks.push(new Firework(x, y, color, isFinal));
             }
+        }
+
+        function displayMessage() {
+            ctx.save();
+            ctx.font = '48px serif';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            // 调整文字位置，避免与按钮重合
+            ctx.fillText('亲爱的张美女，生日快乐🎂🎂🎂！！！', canvas.width / 2, canvas.height / 2 - 100);
+            ctx.restore();
         }
 
         function animate() {
@@ -151,6 +179,9 @@
                 if (firework.isFinished()) {
                     fireworks.splice(i, 1);
                 }
+            }
+            if (showMessage) {
+                displayMessage();
             }
             requestAnimationFrame(animate);
         }
@@ -172,8 +203,12 @@
             // 10秒后显示跳转按钮，并一次性生成10个烟花
             setTimeout(() => {
                 clearInterval(interval);
-                createFireworks(10);
+                createFireworks(10, true);  // 启用最后一起爆炸的特效
                 showEnterButton();
+                // 10秒后显示祝福信息
+                setTimeout(() => {
+                    showMessage = true;
+                }, 1000);
             }, 10000);
         });
     </script>
