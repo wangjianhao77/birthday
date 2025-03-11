@@ -11,9 +11,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
             overflow: hidden;
             font-family: 'Microsoft YaHei', sans-serif;
+            /* 修改背景优化 */
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffaaaa);
+            background-size: 600% 600%;
+            /* 删除背景渐变动画特效 */
+            /* animation: gradientAnimation 16s ease infinite; */
         }
         .container {
             position: relative;
@@ -76,18 +80,6 @@
             }
         }
         /* 星光与气球 */
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 1.5s ease-in-out infinite;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; transform: scale(1.5); }
-        }
         .heart-balloon {
             position: absolute;
             font-size: 30px;
@@ -98,6 +90,14 @@
             100% { transform: translateY(-150vh) rotate(720deg); }
         }
         @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+       
+        .animated-image {
+            animation: floatImage 3s ease-in-out infinite;
+        }
+        @keyframes floatImage {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
@@ -139,16 +139,6 @@
             });
         });
 
-        // 星光生成函数
-        function createStar() {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 1}s`;
-            star.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-            document.body.appendChild(star);
-        }
         // 爱心气球生成函数
         function createHeartBalloon() {
             const balloon = document.createElement('div');
@@ -192,9 +182,8 @@
             document.body.appendChild(ribbon);
             setTimeout(() => ribbon.remove(), 5000);
         }
-        // 初始化特效：星光、爱心气球、爱心、蛋糕与彩带
+        // 初始化特效：爱心气球、爱心、蛋糕与彩带
         window.addEventListener('load', () => {
-            for(let i = 0; i < 50; i++) createStar();
             setInterval(createHeartBalloon, 1500);
             setInterval(createHeart, 1000);
             setInterval(createCake, 3000);
@@ -349,5 +338,7 @@ window.addEventListener('load', () => {
 });
 </script>
 
+    <!-- 修改图片标签 -->
+    <img src="111.png" alt="新图片" class="animated-image" style="position: fixed; right: 10px; bottom: 10px; width: 300px;">
 </body>
 </html>
